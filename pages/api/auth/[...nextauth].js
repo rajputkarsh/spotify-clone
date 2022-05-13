@@ -2,6 +2,7 @@ import NextAuth from "next-auth"
 import SpotifyProvider from "next-auth/providers/spotify"
 import spotifyApi, { LOGIN_URL } from "../../../lib/spotify"
 
+console.log(LOGIN_URL)
 
 async function refreshAccessToken(token){
   try{
@@ -35,7 +36,10 @@ export default NextAuth({
     SpotifyProvider({
       clientId     : process.env.NEXT_PUBLIC_CLIENT_ID,
       clientSecret : process.env.NEXT_PUBLIC_CLIENT_SECRET,
-      authorization: LOGIN_URL
+      authorization: LOGIN_URL,
+      httpOptions: {
+        timeout: 40000,
+      },
     }),
   ],
   secret: process.env.JWT_SECRET,
