@@ -1,6 +1,6 @@
 
 import { LogoutIcon, HomeIcon, SearchIcon, LibraryIcon, PlusCircleIcon, HeartIcon, RssIcon } from "@heroicons/react/outline"
-import { signOut, useSession } from "next-auth/react"        
+import { useSession } from "next-auth/react"        
 import { useState, useEffect } from "react"
 import { useRecoilState } from "recoil"
 import { playlistIdState } from "../atoms/playlistAtom"
@@ -23,14 +23,9 @@ function Sidebar() {
     }, [session, spotifyApi] )
 
     return (
-        <div className="text-gray-500 p-5 text-xs lg:text-sm border-r border-gray-900 overflow-y-scroll h-screen sm:max-w-[12rem] lg:max-w-[15rem] hidden md:inline-flex scrollbar-hide">
+        <div className="text-gray-500 p-5 text-xs lg:text-sm border-r border-gray-900 overflow-y-scroll h-screen sm:min-w-[12rem] lg:min-w-[15rem] hidden md:inline-flex scrollbar-hide">
 
             <div className="space-y-3">
-                <button className="flex items-center space-x-2 hover:text-white "
-                onClick={() => {signOut()}}>
-                    <LogoutIcon className="h-5 w-5"/>
-                    <p>Log Out</p>
-                </button>
                 <button className="flex items-center space-x-2 hover:text-white ">
                     <HomeIcon className="h-5 w-5"/>
                     <p>Home</p>
