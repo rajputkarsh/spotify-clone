@@ -46,7 +46,7 @@ function Library() {
 
   return (
     <div className="flex-grow h-screen overflow-y-scroll scrollbar-hide">
-        <header className="absolute top-5 right-8">
+        <header className="absolute top-5 right-8  z-10">
             <div onClick={signOut} className="flex items-center bg-black text-white space-x-3 opacity-90 hover:opacity-80 cursor-pointer rounded-full p-1 pr-2">
                 <img className="rounded-full w-10 h-10" src={session?.user?.image ?? "https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg"} alt="" />
                 <h2>{ session?.user?.name }</h2>
@@ -59,7 +59,7 @@ function Library() {
             <h1 className="text-2xl md:text-3xl xl:text-5xl font-bold">Library</h1>
             </div>
         </section>
-        <div className="mt-5 p-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 text-white gap-4 justify-center">
+        <div className="z-1 mt-5 p-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 text-white gap-4 justify-center">
             {
                 playlists.map( 
                     (playlist) => (

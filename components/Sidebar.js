@@ -5,6 +5,7 @@ import Router from 'next/router'
 import { useState, useEffect } from "react"
 import { useRecoilState } from "recoil"
 import { playlistIdState } from "../atoms/playlistAtom"
+import SpotifyLogo from "../svg/SpotifyLogo"
 import useSpotify from "../hooks/useSpotify"
 
 function Sidebar() {
@@ -14,6 +15,20 @@ function Sidebar() {
     const {data: session, status} = useSession()
     const [playlists, setPlaylists] = useState([])
     const [playlistId, setPlaylistId] = useRecoilState(playlistIdState)
+
+    const createNewPlaylist = () => {
+
+        spotifyApi.createPlaylist("", {
+            description: "", 
+            'collaborative' : false, 
+            'public': true
+        }).then(data => {
+            console.log("DATA -> ", data)
+        }).catch(error => {
+            console.log("ERROR -> ", error)
+        })
+
+    }
 
     useEffect( () => {
         if(spotifyApi.getAccessToken()){
@@ -30,7 +45,10 @@ function Sidebar() {
     return (
         <div className="text-gray-500 pb-36 p-5 text-xs lg:text-sm border-r border-gray-900 overflow-y-scroll h-screen sm:min-w-[12rem] lg:min-w-[15rem] hidden md:inline-flex scrollbar-hide">
 
-            <div className="space-y-3">
+            <div className="space-y-3 width-100">
+
+                <SpotifyLogo />
+
                 <button className="flex items-center space-x-2 hover:text-white ">
                     <HomeIcon className="h-5 w-5"/>
                     <p>Home</p>
@@ -46,7 +64,7 @@ function Sidebar() {
 
                 <hr className="border-t-[0.1px] border-gray-900"/>
 
-                <button className="flex items-center space-x-2 hover:text-white ">
+                <button onClick={() => {createNewPlaylist()}} className="flex items-center space-x-2 hover:text-white ">
                     <PlusCircleIcon className="h-5 w-5"/>
                     <p>Create Playlist</p>
                 </button>

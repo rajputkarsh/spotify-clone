@@ -34,7 +34,6 @@ function Center() {
         spotifyApi.getPlaylist(playlistId)
         .then(data => {
             setPlaylist(data.body)
-            console.log(data.body)
         })
         .catch(error => {
             console.log("Error in fetching playlist songs : ", error)
