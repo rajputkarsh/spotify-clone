@@ -7,6 +7,7 @@ import { useRecoilState } from "recoil"
 import { playlistIdState } from "../atoms/playlistAtom"
 import SpotifyLogo from "../svg/SpotifyLogo"
 import useSpotify from "../hooks/useSpotify"
+import { toast } from "react-toastify"
 
 function Sidebar() {
 
@@ -14,16 +15,22 @@ function Sidebar() {
 
     const {data: session, status} = useSession()
     const [playlists, setPlaylists] = useState([])
+    const [newPlaylistsCreated, setNewPlaylistsCreated] = useState(0)
     const [playlistId, setPlaylistId] = useRecoilState(playlistIdState)
+
 
     const createNewPlaylist = () => {
 
-        spotifyApi.createPlaylist("", {
+        const newPlaylistName = `My Playlist #${playlists.length+1}`
+
+        spotifyApi.createPlaylist(session.user?.username, newPlaylistName, {
             description: "", 
             'collaborative' : false, 
             'public': true
         }).then(data => {
-            console.log("DATA -> ", data)
+            toast.success(`Playlist ${data?.body?.name} created`)
+            setNewPlaylistsCreated(newPlaylistsCreated + 1)
+            setPlaylistId(data?.body?.id)
         }).catch(error => {
             console.log("ERROR -> ", error)
         })
@@ -36,14 +43,14 @@ function Sidebar() {
                 setPlaylists(data.body.items)
             })
         }
-    }, [session, spotifyApi] )
+    }, [newPlaylistsCreated, session, spotifyApi] )
 
     const redirectTo = (url) => {
         Router.push(url)
     }
 
     return (
-        <div className="text-gray-500 pb-36 p-5 text-xs lg:text-sm border-r border-gray-900 overflow-y-scroll h-screen sm:min-w-[12rem] lg:min-w-[15rem] hidden md:inline-flex scrollbar-hide">
+        <div className="text-gray-500 pb-36 p-5 text-xs lg:text-sm border-r border-gray-900 overflow-y-scroll h-[calc(100vh-6rem)] sm:min-w-[12rem] lg:min-w-[15rem] hidden md:inline-flex scrollbar-hide">
 
             <div className="space-y-3 width-100">
 
