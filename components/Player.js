@@ -8,6 +8,7 @@ import { currentTrackIdState, isPlayingState } from "../atoms/songAtom"
 import { HeartIcon, VolumeUpIcon as VolumeDownIcon } from "@heroicons/react/outline"
 import { FastForwardIcon, PlayIcon, PauseIcon, ReplyIcon, RewindIcon, SwitchHorizontalIcon, VolumeUpIcon } from "@heroicons/react/solid"
 
+import { toast } from "react-toastify"
 
 function Player() {
 
@@ -36,7 +37,7 @@ function Player() {
 
     const handlePlayPause = () => {
         spotifyApi.getMyCurrentPlaybackState().then(data => {
-            if(data.body.is_playing){
+            if(data.body?.is_playing){
                 spotifyApi.pause()
                 setIsPlaying(false)
             }
@@ -44,6 +45,10 @@ function Player() {
                 spotifyApi.play()
                 setIsPlaying(false)
             }
+        })
+        .catch(error => {
+            toast.error("This API requires Spotify to be running in one of your devices")
+            console.log(error)
         })
     }
 

@@ -7,6 +7,7 @@ import Player from '../components/Player'
 import { getSession } from 'next-auth/react'
 
 const Home: NextPage = () => {
+
   return (
     <div className='bg-black h-screen overflow-hidden'>
       <Head>

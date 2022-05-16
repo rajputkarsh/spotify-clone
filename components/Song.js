@@ -1,4 +1,5 @@
 
+import { toast } from "react-toastify"
 import { useRecoilState } from "recoil"
 import { currentTrackIdState, isPlayingState } from "../atoms/songAtom"
 import useSpotify from "../hooks/useSpotify"
@@ -18,6 +19,8 @@ function Song( { order, track } ) {
 
         spotifyApi.play({
             uris: [track.uri],
+        }).catch(error => {
+            toast.error(error   )
         })
     }
 
