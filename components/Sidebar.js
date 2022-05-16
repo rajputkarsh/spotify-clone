@@ -1,6 +1,7 @@
 
 import { LogoutIcon, HomeIcon, SearchIcon, LibraryIcon, PlusCircleIcon, HeartIcon, RssIcon } from "@heroicons/react/outline"
 import { useSession } from "next-auth/react"        
+import Router from 'next/router'
 import { useState, useEffect } from "react"
 import { useRecoilState } from "recoil"
 import { playlistIdState } from "../atoms/playlistAtom"
@@ -22,6 +23,10 @@ function Sidebar() {
         }
     }, [session, spotifyApi] )
 
+    const redirectTo = (url) => {
+        Router.push(url)
+    }
+
     return (
         <div className="text-gray-500 pb-36 p-5 text-xs lg:text-sm border-r border-gray-900 overflow-y-scroll h-screen sm:min-w-[12rem] lg:min-w-[15rem] hidden md:inline-flex scrollbar-hide">
 
@@ -34,7 +39,7 @@ function Sidebar() {
                     <SearchIcon className="h-5 w-5"/>
                     <p>Search</p>
                 </button>
-                <button className="flex items-center space-x-2 hover:text-white ">
+                <button onClick={() => { redirectTo("/playlists") }} className="flex items-center space-x-2 hover:text-white ">
                     <LibraryIcon className="h-5 w-5"/>
                     <p>Your Library</p>
                 </button>
@@ -59,7 +64,7 @@ function Sidebar() {
                 {
                     playlists.map( 
                         (playlist) => (
-                            <p key={playlist.id} onClick={() => {setPlaylistId(playlist.id)}} className="cursor-pointer hover:text-white">
+                            <p key={playlist.id} onClick={() => {setPlaylistId(playlist.id); redirectTo("/")}} className="cursor-pointer hover:text-white">
                                 {playlist.name}
                             </p>
                         )
