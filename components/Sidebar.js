@@ -62,7 +62,7 @@ function Sidebar() {
                     <HomeIcon className="h-5 w-5" />
                     <p>Home</p>
                 </button>
-                <button className="flex items-center space-x-2 hover:text-white ">
+                <button onClick={() => redirectTo("/search")} className="flex items-center space-x-2 hover:text-white ">
                     <SearchIcon className="h-5 w-5"/>
                     <p>Search</p>
                 </button>
