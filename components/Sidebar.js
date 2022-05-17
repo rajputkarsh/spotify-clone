@@ -54,17 +54,19 @@ function Sidebar() {
 
             <div className="space-y-3 width-100">
 
-                <SpotifyLogo />
+                <div  className="cursor-pointer mb-10" onClick={() => {redirectTo("/home")}} >
+                    <SpotifyLogo/>
+                </div>
 
-                <button className="flex items-center space-x-2 hover:text-white ">
-                    <HomeIcon className="h-5 w-5"/>
+                <button onClick={() => redirectTo("/home")} className="flex items-center space-x-2 hover:text-white">
+                    <HomeIcon className="h-5 w-5" />
                     <p>Home</p>
                 </button>
                 <button className="flex items-center space-x-2 hover:text-white ">
                     <SearchIcon className="h-5 w-5"/>
                     <p>Search</p>
                 </button>
-                <button onClick={() => { redirectTo("/playlists") }} className="flex items-center space-x-2 hover:text-white ">
+                <button onClick={() => redirectTo("/playlists")} className="flex items-center space-x-2 hover:text-white ">
                     <LibraryIcon className="h-5 w-5"/>
                     <p>Your Library</p>
                 </button>
