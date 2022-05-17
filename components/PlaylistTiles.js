@@ -4,7 +4,7 @@ import {PlayIcon} from "@heroicons/react/solid"
 function PlaylistTiles({id, name, description, image, redirect}) {
 
   return (
-    <div onClick={redirect} className='cursor-pointer group h-80 w-60 md:h-80 md:w-60 p-4 rounded-xl bg-[#181818] hover:bg-[#2A2A2A] transition transform duration-100 ease-in'>
+    <div onClick={redirect} className='cursor-pointer group h-60 w-60 md:h-80 md:w-60 p-4 rounded-xl bg-[#181818] hover:bg-[#2A2A2A] transition transform duration-100 ease-in'>
         <img src={image} className="shadow-sm" />
         <div className='flex mt-2'>
             <div>

@@ -6,27 +6,40 @@ import { useState, useEffect } from "react"
 import { ChevronDownIcon } from "@heroicons/react/outline"
 import useSpotify from "../hooks/useSpotify"
 import { getArtistNames } from "../lib/artists"
+import { shuffle } from "lodash"
+import PlaylistCollection from "./PlaylistCollection"
+import { MAX_RECENT_SONGS, MAX_CATEGORIES } from "../constants/constants"
 
 function HomeSections() {
 
     const spotifyApi = useSpotify()
     const {data: session, status} = useSession()
     const [recentlyPlayedSongs, setRecentlyPlayedSongs] = useState([])
+    const [categories, setCategories] = useState([])
 
-    const TOTAL_RECENT_SONGS = 3
+    const addRecentlyPlayedSongs = () => {
+        spotifyApi.getMyRecentlyPlayedTracks({limit:10}).then((data) => {
+
+            const uniqueRecentlyPlayedSongs = [...new Map(data.body.items.map(song =>
+                [song?.track?.id, song])).values()].slice(0, MAX_RECENT_SONGS);
+
+            setRecentlyPlayedSongs(uniqueRecentlyPlayedSongs)
+        })
+    }
+
+    const addCategories = () => {
+        spotifyApi.getCategories({country: "IN"}).then(data => {
+            setCategories(shuffle(data.body?.categories?.items).slice(0, MAX_CATEGORIES))
+
+        })
+    }
 
     useEffect( () => {
         if(spotifyApi.getAccessToken()){
-            spotifyApi.getMyRecentlyPlayedTracks({limit:10}).then((data) => {
-
-                const uniqueRecentlyPlayedSongs = [...new Map(data.body.items.map(song =>
-                    [song?.track?.id, song])).values()].slice(0, TOTAL_RECENT_SONGS);
-
-                setRecentlyPlayedSongs(uniqueRecentlyPlayedSongs)
-            })
+            addRecentlyPlayedSongs()
+            addCategories()
         }
     }, [session, spotifyApi] )
-
 
     return (
         <div className="flex-grow h-screen overflow-y-scroll scrollbar-hide">
@@ -43,7 +56,7 @@ function HomeSections() {
                 <h1 className="text-3xl font-bold">Recenty Played Songs</h1>
                 </div>
             </section>
-            <div className="z-1 p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 text-white gap-4 justify-center">
+            <div className="z-1 p-10 pt-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 text-white gap-4 justify-center">
                 {
                     recentlyPlayedSongs.map( 
                         (recentlyPlayedSong) => (
@@ -51,8 +64,29 @@ function HomeSections() {
                         )
                     )
                 }
-    
             </div>
+                {
+                    categories ? categories.map(
+                        (category) => (
+                            <>
+                                <section className={`flex items-end space-x-7  h-30 text-white p-8`}>
+                                    <div>
+                                    <h1 className="text-3xl font-bold">{category.name}</h1>
+                                    </div>
+                                </section>     
+
+                                <div>
+                                    {
+                                    <PlaylistCollection id={category.id} name={category.name} />   
+                                    }                                 
+                                </div>
+
+                            </>
+                        )
+                    )
+                    : ""
+                }
+
         </div>
       )
 }
