@@ -10,6 +10,8 @@ import { shuffle } from "lodash"
 import { PlayIcon } from "@heroicons/react/solid"
 import TopResultTile from "./TopResultTile"
 import { findMatchProbability } from '../lib/misc'
+import Song from '../components/Song'
+import { MAX_VISIBLE_SONGS } from '../constants/constants'
 
 function SearchTerm({ term }) {
 
@@ -93,8 +95,6 @@ function SearchTerm({ term }) {
                 data.body?.playlists?.items[0],
             ))
             
-            console.log(data.body)
-
             setSearchResults(data.body)
         })
     }
@@ -129,10 +129,23 @@ function SearchTerm({ term }) {
             </section>
 
             <div className='flex text-white pl-8 pr-8'>
-                <div className='md:w-1/2'>
+                <div className='md:w-1/2 pr-1'>
                     <h1 className='text-2xl'>Top Result</h1>
                     <TopResultTile id={topResultType.id} name={topResultType.name} image={topResultType.image} type={topResultType.type}/>                    
                 </div>
+
+                <div className='md:w-1/2 pl-1'>
+                    <h1 className='text-2xl'>Songs</h1>
+                    <div>
+                        {   
+                            searchResults?.tracks?.items.slice(0, MAX_VISIBLE_SONGS).map((track, i) => (
+                                <Song track={track} order={i} small={true} />
+                            ))
+                        }
+                    </div>
+                    
+                </div>
+
             </div>
 
         </div>
