@@ -77,7 +77,7 @@ function HomeSections() {
 
                                 <div>
                                     {
-                                    <PlaylistCollection id={category.id} name={category.name} />   
+                                    <PlaylistCollection id={category.id} />   
                                     }                                 
                                 </div>
 

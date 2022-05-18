@@ -7,8 +7,7 @@ import Player from '../components/Player'
 import { getSession } from 'next-auth/react'
 
 export default function Home() {
-
-
+  
     return (
         <div className='bg-black h-screen overflow-hidden'>
         <Head>

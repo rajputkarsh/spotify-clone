@@ -7,13 +7,13 @@ import useSpotify from "../hooks/useSpotify"
 import { useRecoilState } from "recoil"
 import { playlistIdState } from "../atoms/playlistAtom"
 import { shuffle } from "lodash"
+import {PlayIcon} from "@heroicons/react/solid"
 import PlaylistTiles from "./PlaylistTiles"
 
-function SearchWindow() {
+function SearchTerm({ term }) {
 
     const spotifyApi = useSpotify()
     const {data: session, status} = useSession()
-    const [genre, setGenre] = useState([])
     const [searchTerm, setSearchTerm] = useState("")
     const [playlistId, setPlaylistId] = useRecoilState(playlistIdState)
 
@@ -33,10 +33,8 @@ function SearchWindow() {
 
     useEffect( () => {
         if(spotifyApi.getAccessToken()){
-            spotifyApi.getCategories({country: "IN"}).then(data => {
-                setGenre(shuffle(data.body?.categories?.items))
-            })
-        }
+            
+        }        
     }, [session, spotifyApi] )
 
     return (
@@ -57,22 +55,19 @@ function SearchWindow() {
 
             <section className={`flex items-end space-x-7  h-20 text-white p-8`}>
                 <div>
-                    <h1 className="text-3xl font-bold">Browse All</h1>
+                    <h1 className="text-3xl font-bold">Search Results for - <span className='capitalize'>{term}</span></h1>
                 </div>
             </section>
 
-            <div className="z-1 p-10 pt-0 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 text-white gap-4 justify-center">
-            {
-                genre.map(
-                    (singleGenre) => (
-                        <PlaylistTiles key={singleGenre.id} id={singleGenre.id} name={singleGenre.name} description={""} image={singleGenre?.icons[0]?.url} redirect={() => {redirectTo(`/genre/${singleGenre.id}`)}} />
-                    )  
-                )
-            }                
+            <div className='flex text-white'>
+                <div className='md:w-1/2 p-8'>
+                    {/* artist tile */}
+                    <ArtistTile />                    
+                </div>
             </div>
 
         </div>
     )
 }
 
-export default SearchWindow
+export default SearchTerm
