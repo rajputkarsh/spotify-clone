@@ -7,14 +7,17 @@ import useSpotify from "../hooks/useSpotify"
 import { useRecoilState } from "recoil"
 import { playlistIdState } from "../atoms/playlistAtom"
 import { shuffle } from "lodash"
-import {PlayIcon} from "@heroicons/react/solid"
-import PlaylistTiles from "./PlaylistTiles"
+import { PlayIcon } from "@heroicons/react/solid"
+import TopResultTile from "./TopResultTile"
+import { findMatchProbability } from '../lib/misc'
 
 function SearchTerm({ term }) {
 
     const spotifyApi = useSpotify()
     const {data: session, status} = useSession()
     const [searchTerm, setSearchTerm] = useState("")
+    const [searchResults, setSearchResults] = useState(null)
+    const [topResultType, setTopResultType] = useState("UNKNOWN")
     const [playlistId, setPlaylistId] = useRecoilState(playlistIdState)
 
     const redirectTo = (url) => {
@@ -31,11 +34,77 @@ function SearchTerm({ term }) {
         }
     }
 
+    const getTopResultType = (track, artist, album, playlist) => {
+        let topResult = {
+            id   : null,
+            name : null,
+            image: null,
+            type : null,
+        }
+        let topResultProbability = 0
+
+        // Preference order -> Song - Artist - Album - Playlist
+        let trackProbability    = findMatchProbability(term, track.name)
+        let artistProbability   = findMatchProbability(term, artist.name)
+        let albumProbability    = findMatchProbability(term, album.name)
+        let playlistProbability = findMatchProbability(term, playlist.name)
+
+        if ( trackProbability > topResultProbability){
+            topResult.id = track.id
+            topResult.name = track.name
+            topResult.image = track?.album?.images[0]?.url
+            topResult.type = "SONG"
+            topResultProbability = trackProbability
+        }
+        
+        if ( artistProbability > topResultProbability){
+            topResult.id = artist.id
+            topResult.name = artist.name
+            topResult.image = artist?.images[0]?.url
+            topResult.type = "ARTIST"
+            topResultProbability = artistProbability
+        }
+
+        if ( albumProbability > topResultProbability){
+            topResult.id = album.id
+            topResult.name = album.name
+            topResult.image = album?.images[0]?.url
+            topResult.type = "ALBUM"
+            topResultProbability = albumProbability
+        }
+
+        if ( playlistProbability > topResultProbability){
+            topResult.id = playlist.id
+            topResult.name = playlist.name
+            topResult.image = playlist?.images[0]?.url
+            topResult.type = "PLAYLIST"
+            topResultProbability = playlistProbability
+        }
+        return topResult
+    }
+
+    const getSearchResults = () => {
+        spotifyApi.search(term, ['album', 'artist', 'playlist', 'track']).then(data => {
+
+            setTopResultType(getTopResultType(
+                data.body?.tracks?.items[0],
+                data.body?.artists?.items[0],
+                data.body?.albums?.items[0],
+                data.body?.playlists?.items[0],
+            ))
+            
+            console.log(data.body)
+
+            setSearchResults(data.body)
+        })
+    }
+
     useEffect( () => {
         if(spotifyApi.getAccessToken()){
-            
+            getSearchResults()
         }        
-    }, [session, spotifyApi] )
+    }, [session, spotifyApi, term] )
+
 
     return (
         <div className="flex-grow h-screen overflow-y-scroll scrollbar-hide">
@@ -59,10 +128,10 @@ function SearchTerm({ term }) {
                 </div>
             </section>
 
-            <div className='flex text-white'>
-                <div className='md:w-1/2 p-8'>
-                    {/* artist tile */}
-                    <ArtistTile />                    
+            <div className='flex text-white pl-8 pr-8'>
+                <div className='md:w-1/2'>
+                    <h1 className='text-2xl'>Top Result</h1>
+                    <TopResultTile id={topResultType.id} name={topResultType.name} image={topResultType.image} type={topResultType.type}/>                    
                 </div>
             </div>
 
