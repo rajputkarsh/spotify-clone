@@ -1,8 +1,7 @@
 
-import Router from 'next/router'
+import { redirectTo } from "../lib/misc"
 import { useSession, signOut } from "next-auth/react"
 import { useState, useEffect } from "react"
-import { ChevronDownIcon } from "@heroicons/react/outline"
 import useSpotify from "../hooks/useSpotify"
 import { useRecoilState } from "recoil"
 import { playlistIdState } from "../atoms/playlistAtom"
@@ -17,10 +16,6 @@ function SearchWindow() {
     const [genre, setGenre] = useState([])
     const [searchTerm, setSearchTerm] = useState("")
     const [playlistId, setPlaylistId] = useRecoilState(playlistIdState)
-
-    const redirectTo = (url) => {
-        Router.push(url)
-    }
 
     const updateSearchTerm = (newSearchTerm) => {
         setSearchTerm(newSearchTerm)

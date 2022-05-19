@@ -1,11 +1,11 @@
 
 import { useEffect, useState } from "react"
-import Router from 'next/router'
 import { useSession, signOut } from "next-auth/react"
 import { useRecoilState } from "recoil"
 import { playlistIdState } from "../atoms/playlistAtom"
 import useSpotify from "../hooks/useSpotify"
 import PlaylistTiles from "./PlaylistTiles"
+import { redirectTo } from "../lib/misc"
 import { MAX_PLAYLIST_SONGS } from "../constants/constants"
 
 function PlaylistCollection({ id, name, limit=MAX_PLAYLIST_SONGS }) {
@@ -15,9 +15,6 @@ function PlaylistCollection({ id, name, limit=MAX_PLAYLIST_SONGS }) {
   const [playlists, setPlaylists] = useState([])
   const [playlistId, setPlaylistId] = useRecoilState(playlistIdState)
 
-  const redirectTo = (url) => {
-      Router.push(url)
-  }
 
   useEffect(() => {
     spotifyApi.getPlaylistsForCategory(id, {limit: limit})

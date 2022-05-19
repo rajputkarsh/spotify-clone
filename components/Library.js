@@ -1,7 +1,7 @@
 
 import PlaylistTiles from "./PlaylistTiles"
-import Router from 'next/router'
 import { useSession } from "next-auth/react"
+import { redirectTo } from "../lib/misc"
 import { useState, useEffect } from "react"
 import { useRecoilState, useRecoilValue } from "recoil"
 import { playlistState, playlistIdState } from "../atoms/playlistAtom"
@@ -27,10 +27,6 @@ function Library() {
     ]
 
     const [color, setColor] = useState(null)
-
-    const redirectTo = (url) => {
-        Router.push(url)
-    }
 
     useEffect(() => {
         setColor(shuffle(colors).pop())

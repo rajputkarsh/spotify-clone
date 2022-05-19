@@ -1,9 +1,36 @@
 
 import {PlayIcon} from "@heroicons/react/solid"
+import { toast } from "react-toastify"
 
 function TopResultTile({ id, name, image, type }) {
+
+    const handleClick = (event) =>{
+        switch(type){
+            case "SONG" : {
+                redirectTo()
+                break
+            }
+            case "ARTIST": {
+                redirectTo()
+                break
+            }
+            case "PLAYLIST": {
+                redirectTo()
+                break
+            }
+            case "ALBUM": {
+                redirectTo()
+                break
+            }
+            default:{
+                toast.warning("Oops! This action is not available.")
+                break
+            }
+        }
+    }
+
   return (
-    <div onClick={() => {}} id={"id"} className='cursor-pointer group h-48 p-4 rounded-xl bg-[#181818] hover:bg-[#2A2A2A] transition transform duration-100 ease-in'>
+    <div onClick={(e) => {handleClick(e)}} id={"id"} className='cursor-pointer group h-48 p-4 rounded-xl bg-[#181818] hover:bg-[#2A2A2A] transition transform duration-100 ease-in'>
     <img src={image} className="shadow-sm w-20 h-20 rounded-full" />
     <div className='flex mt-2'>
         <div>

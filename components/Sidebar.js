@@ -1,7 +1,7 @@
 
 import { LogoutIcon, HomeIcon, SearchIcon, LibraryIcon, PlusCircleIcon, HeartIcon, RssIcon } from "@heroicons/react/outline"
-import { useSession } from "next-auth/react"        
-import Router from 'next/router'
+import { useSession } from "next-auth/react"     
+import { redirectTo } from "../lib/misc"
 import { useState, useEffect } from "react"
 import { useRecoilState } from "recoil"
 import { playlistIdState } from "../atoms/playlistAtom"
@@ -44,10 +44,6 @@ function Sidebar() {
             })
         }
     }, [newPlaylistsCreated, session, spotifyApi] )
-
-    const redirectTo = (url) => {
-        Router.push(url)
-    }
 
     return (
         <div className="text-gray-500 pb-36 p-5 text-xs lg:text-sm border-r border-gray-900 overflow-y-scroll h-[calc(100vh-6rem)] sm:min-w-[12rem] lg:min-w-[15rem] hidden md:inline-flex scrollbar-hide">

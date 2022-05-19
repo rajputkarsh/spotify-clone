@@ -1,5 +1,5 @@
 
-import Router from 'next/router'
+
 import { useSession, signOut } from "next-auth/react"
 import { useState, useEffect } from "react"
 import useSpotify from "../hooks/useSpotify"
@@ -9,21 +9,18 @@ import TopResultTile from "./TopResultTile"
 import UserProfile from './UserProfile'
 import { findMatchProbability } from '../lib/misc'
 import Song from '../components/Song'
-import { MAX_VISIBLE_SONGS, MAX_PLAYLIST_SONGS } from '../constants/constants'
+import { redirectTo } from "../lib/misc"
 import PlaylistTiles from './PlaylistTiles'
+import { MAX_VISIBLE_SONGS, MAX_PLAYLIST_SONGS } from '../constants/constants'
 
 function SearchTerm({ term }) {
 
     const spotifyApi = useSpotify()
     const {data: session, status} = useSession()
-    const [searchTerm, setSearchTerm] = useState("")
+    const [searchTerm, setSearchTerm] = useState(term ?? "")
     const [searchResults, setSearchResults] = useState(null)
     const [topResultType, setTopResultType] = useState("UNKNOWN")
     const [playlistId, setPlaylistId] = useRecoilState(playlistIdState)
-
-    const redirectTo = (url) => {
-        Router.push(url)
-    }
 
     const updateSearchTerm = (newSearchTerm) => {
         setSearchTerm(newSearchTerm)
