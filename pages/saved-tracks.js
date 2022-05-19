@@ -1,8 +1,9 @@
 import React from 'react'
+import LikedSongs from '../components/LikedSongs'
 
 function SavedTracks() {
   return (
-    <div>Tks</div>
+    <LikedSongs />
   )
 }
 

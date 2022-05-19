@@ -781,6 +781,7 @@ SpotifyWebApi.prototype = {
    *          playlist track objects. Not returned if a callback is given.
    */
   getMySavedTracks: function(options, callback) {
+
     return WebApiRequest.builder(this.getAccessToken())
       .withPath('/v1/me/tracks')
       .withQueryParameters(options)
@@ -798,6 +799,7 @@ SpotifyWebApi.prototype = {
    * Not returned if a callback is given.
    */
   containsMySavedTracks: function(trackIds, callback) {
+
     return WebApiRequest.builder(this.getAccessToken())
       .withPath('/v1/me/tracks/contains')
       .withQueryParameters({

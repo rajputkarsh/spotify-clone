@@ -1,4 +1,4 @@
-import { useSession, signOut } from "next-auth/react"
+import { useSession } from "next-auth/react"
 import { useState, useEffect } from "react"
 import Songs from "./Songs"
 import { useRecoilState, useRecoilValue } from "recoil"
