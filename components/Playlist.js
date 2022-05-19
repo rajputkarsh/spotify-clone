@@ -1,6 +1,6 @@
 import { useSession, signOut } from "next-auth/react"
 import { useState, useEffect } from "react"
-import Songs from "../components/Songs"
+import Songs from "./Songs"
 import { useRecoilState, useRecoilValue } from "recoil"
 import { ChevronDownIcon } from "@heroicons/react/outline"
 import { playlistState, playlistIdState } from "../atoms/playlistAtom"

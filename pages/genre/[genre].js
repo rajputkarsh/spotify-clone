@@ -1,10 +1,5 @@
 
-import Head from 'next/head'
-
-import Sidebar from '../../components/Sidebar'
-import SearchWindow from '../../components/SearchWindow'
 import { ChevronDownIcon } from "@heroicons/react/outline"
-import Player from '../../components/Player'
 import { getSession, signOut } from 'next-auth/react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
@@ -34,49 +29,32 @@ function Genre() {
     }, [session, spotifyApi])    
 
     return (
-      <div className='bg-black h-screen overflow-hidden'>
-      <Head>
-          <title>Spotify Clone</title>
-          <link rel="icon" href="/favicon.ico" />
-      </Head>
 
-      <main className='flex'>
-          <Sidebar />
-          {/* genre playlists */}
+          <div className="flex-grow h-screen overflow-y-scroll scrollbar-hide">
+            <header className="absolute top-5 right-8  z-10">
+                <div onClick={signOut} className="flex items-center bg-black text-white space-x-3 opacity-90 hover:opacity-80 cursor-pointer rounded-full p-1 pr-2">
+                    <img className="rounded-full w-10 h-10" src={session?.user?.image ?? "https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg"} alt="" />
+                    <h2>{ session?.user?.name }</h2>
+                    <ChevronDownIcon className="h-5 w-5" />
+                </div>
+            </header>
 
-            <div className="flex-grow h-screen overflow-y-scroll scrollbar-hide">
-              <header className="absolute top-5 right-8  z-10">
-                  <div onClick={signOut} className="flex items-center bg-black text-white space-x-3 opacity-90 hover:opacity-80 cursor-pointer rounded-full p-1 pr-2">
-                      <img className="rounded-full w-10 h-10" src={session?.user?.image ?? "https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg"} alt="" />
-                      <h2>{ session?.user?.name }</h2>
-                      <ChevronDownIcon className="h-5 w-5" />
-                  </div>
-              </header>
+            <section className={`flex items-end space-x-7 bg-gradient-to-b to-black  h-30 text-white p-8`}>
+                <div>
+                <h1 className="text-2xl md:text-3xl xl:text-5xl font-bold">Playlists</h1>
+                </div>
+            </section>
+            <div className="z-1 mt-5 p-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 text-white gap-4 justify-center">
+                {
+                    playlists.map( 
+                        (playlist) => (
+                            <PlaylistTiles key={playlist.id} id={playlist.id} name={playlist.name} description={""} image={playlist?.images[0]?.url} redirect={() => {setPlaylistId(playlist.id); redirectTo("/")}} />
+                        )
+                    )
+                }
 
-              <section className={`flex items-end space-x-7 bg-gradient-to-b to-black  h-30 text-white p-8`}>
-                  <div>
-                  <h1 className="text-2xl md:text-3xl xl:text-5xl font-bold">Playlists</h1>
-                  </div>
-              </section>
-              <div className="z-1 mt-5 p-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 text-white gap-4 justify-center">
-                  {
-                      playlists.map( 
-                          (playlist) => (
-                              <PlaylistTiles key={playlist.id} id={playlist.id} name={playlist.name} description={""} image={playlist?.images[0]?.url} redirect={() => {setPlaylistId(playlist.id); redirectTo("/")}} />
-                          )
-                      )
-                  }
-
-              </div>
-          </div>
-
-      </main>
-
-      <div className="sticky bottom-0">
-          <Player />
-      </div>
-
-      </div>
+            </div>
+        </div>
   )
 }
 

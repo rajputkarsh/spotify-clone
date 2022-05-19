@@ -77,7 +77,7 @@ function Sidebar() {
                     <PlusCircleIcon className="h-5 w-5"/>
                     <p>Create Playlist</p>
                 </button>
-                <button className="flex items-center space-x-2 hover:text-white ">
+                <button onClick={() => {redirectTo("/saved-tracks")}} className="flex items-center space-x-2 hover:text-white ">
                     <HeartIcon className="h-5 w-5"/>
                     <p>Liked Songs</p>
                 </button>

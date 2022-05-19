@@ -143,10 +143,29 @@ function SearchTerm({ term }) {
                             ))
                         }
                     </div>
-                    
+                </div>
+            </div>
+
+            <div className='flex text-white pt-8 pl-8 pr-8'>
+                    <h1 className='text-3xl'>Artists</h1>   
+                    <div>
+                        
+                    </div>                 
                 </div>
 
-            </div>
+                <div className='flex text-white pt-8 pl-8 pr-8'>
+                    <h1 className='text-3xl'>Albums</h1>        
+                    <div>
+                        
+                    </div>            
+                </div>
+
+                <div className='flex text-white pt-8 pl-8 pr-8'>
+                    <h1 className='text-3xl'>Playlists</h1>     
+                    <div>
+                        
+                    </div>               
+                </div>
 
         </div>
     )
