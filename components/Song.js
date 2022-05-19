@@ -8,8 +8,6 @@ import { millisecondsToMinsAndSeconds } from "../lib/time"
 
 function Song( { order, track, small=false } ) {  
     
-    console.log(track)
-
     const spotifyApi = useSpotify()
 
     const [currentTrackId, setCurrentTrackId] = useRecoilState(currentTrackIdState)

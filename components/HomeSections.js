@@ -41,7 +41,7 @@ function HomeSections() {
     }, [session, spotifyApi] )
 
     return (
-        <div className="flex-grow h-screen overflow-y-scroll scrollbar-hide">
+        <div className="flex-grow h-screen overflow-y-scroll scrollbar-hide ">
 
             <UserProfile />
     
@@ -80,7 +80,6 @@ function HomeSections() {
                     )
                     : ""
                 }
-
         </div>
       )
 }

@@ -2,17 +2,15 @@
 import Router from 'next/router'
 import { useSession, signOut } from "next-auth/react"
 import { useState, useEffect } from "react"
-import { ChevronDownIcon } from "@heroicons/react/outline"
 import useSpotify from "../hooks/useSpotify"
 import { useRecoilState } from "recoil"
 import { playlistIdState } from "../atoms/playlistAtom"
-import { shuffle } from "lodash"
-import { PlayIcon } from "@heroicons/react/solid"
 import TopResultTile from "./TopResultTile"
+import UserProfile from './UserProfile'
 import { findMatchProbability } from '../lib/misc'
 import Song from '../components/Song'
-import { MAX_VISIBLE_SONGS } from '../constants/constants'
-import UserProfile from './UserProfile'
+import { MAX_VISIBLE_SONGS, MAX_PLAYLIST_SONGS } from '../constants/constants'
+import PlaylistTiles from './PlaylistTiles'
 
 function SearchTerm({ term }) {
 
@@ -141,26 +139,48 @@ function SearchTerm({ term }) {
                 </div>
             </div>
 
-            <div className='flex text-white pt-8 pl-8 pr-8'>
-                    <h1 className='text-3xl'>Artists</h1>   
-                    <div>
-                        
-                    </div>                 
-                </div>
+            <div className='text-white pt-8 pl-8 pr-8'>
+                <h1 className='text-3xl'>Artists</h1>        
+                <div>
+                    <div className="z-1 mt-5 p-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 text-white gap-4 justify-center">
+                        {
+                            searchResults?.artists?.items.slice(0, MAX_PLAYLIST_SONGS).map(
+                                (playlist, i) => (
+                                    <PlaylistTiles id={playlist.id} name={playlist.name} image={playlist?.images[0]?.url} description={playlist.description} redirect={() => { }} />
+                                )
+                            )    
+                        }
+                    </div>                        
+                </div>            
+            </div>
 
-                <div className='flex text-white pt-8 pl-8 pr-8'>
-                    <h1 className='text-3xl'>Albums</h1>        
-                    <div>
-                        
-                    </div>            
-                </div>
+            <div className='text-white pt-8 pl-8 pr-8'>
+                <h1 className='text-3xl'>Albums</h1>        
+                <div>
+                    <div className="z-1 mt-5 p-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 text-white gap-4 justify-center">
+                        {
+                            searchResults?.albums?.items.slice(0, MAX_PLAYLIST_SONGS).map(
+                                (playlist, i) => (
+                                    <PlaylistTiles id={playlist.id} name={playlist.name} image={playlist?.images[0]?.url} description={playlist.description} redirect={() => { }} />
+                                )
+                            )    
+                        }
+                    </div>                        
+                </div>            
+            </div>
 
-                <div className='flex text-white pt-8 pl-8 pr-8'>
-                    <h1 className='text-3xl'>Playlists</h1>     
-                    <div>
-                        
-                    </div>               
-                </div>
+            <div className='text-white pt-8 pl-8 pr-8'>
+                <h1 className='text-3xl'>Playlists</h1>     
+                <div className="z-1 mt-5 p-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 text-white gap-4 justify-center">
+                    {
+                        searchResults?.playlists?.items.slice(0, MAX_PLAYLIST_SONGS).map(
+                            (playlist, i) => (
+                                <PlaylistTiles id={playlist.id} name={playlist.name} image={playlist?.images[0]?.url} description={playlist.owner.display_name} redirect={() => {setPlaylistId(playlist.id); redirectTo("/") }} />
+                            )
+                        )    
+                    }
+                </div>               
+            </div>
 
         </div>
     )
