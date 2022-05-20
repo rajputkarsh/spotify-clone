@@ -29,7 +29,7 @@ function MyApp({ Component, pageProps: {session, ...pageProps} }: AppProps) {
                     <link rel="icon" href="/favicon.ico" />
                 </Head>                
                 <div className='bg-black h-screen overflow-hidden'>
-                    <main className='flex'>
+                    <main className='flex min-h-screen'>
                         <Sidebar />
                         <Component {...pageProps} />
                     </main>
