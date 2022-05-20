@@ -3,7 +3,7 @@ import { toast } from "react-toastify"
 import { useRecoilState } from "recoil"
 import { currentTrackIdState, isPlayingState } from "../atoms/songAtom"
 import useSpotify from "../hooks/useSpotify"
-import { getArtistNames } from "../lib/artists"
+import { concatenateArray } from "../lib/artists"
 import { millisecondsToMinsAndSeconds } from "../lib/time"
 
 function Song( { order, track, small=false } ) {  
@@ -33,7 +33,7 @@ function Song( { order, track, small=false } ) {
                 
                     <div>
                         <p className="w-20 lg:w-64 truncate text-white">{track.name}</p>
-                        <p className="w-24 ">{getArtistNames([track.artists[0]])}</p>
+                        <p className="w-24 ">{concatenateArray([track.artists[0]], 'name')}</p>
                     </div>
 
                     <div className="flex items-center justify-between ml-auto md:ml-0">
@@ -52,7 +52,7 @@ function Song( { order, track, small=false } ) {
             
                 <div>
                     <p className="w-36 lg:w-64 truncate text-white">{track.name}</p>
-                    <p className="w-40 ">{getArtistNames(track.artists)}</p>
+                    <p className="w-40 ">{concatenateArray(track.artists, 'name')}</p>
                 </div>
 
                 <div className="flex items-center justify-between ml-auto md:ml-0">

@@ -38,6 +38,7 @@ function SearchTerm({ term }) {
             name : null,
             image: null,
             type : null,
+            uri  : null
         }
         let topResultProbability = 0
 
@@ -52,6 +53,7 @@ function SearchTerm({ term }) {
             topResult.name = track.name
             topResult.image = track?.album?.images[0]?.url
             topResult.type = "SONG"
+            topResult.uri  = track.uri
             topResultProbability = trackProbability
         }
         
@@ -60,6 +62,7 @@ function SearchTerm({ term }) {
             topResult.name = artist.name
             topResult.image = artist?.images[0]?.url
             topResult.type = "ARTIST"
+            topResult.uri  = artist.uri
             topResultProbability = artistProbability
         }
 
@@ -68,6 +71,7 @@ function SearchTerm({ term }) {
             topResult.name = album.name
             topResult.image = album?.images[0]?.url
             topResult.type = "ALBUM"
+            topResult.uri  = album.uri
             topResultProbability = albumProbability
         }
 
@@ -76,6 +80,7 @@ function SearchTerm({ term }) {
             topResult.name = playlist.name
             topResult.image = playlist?.images[0]?.url
             topResult.type = "PLAYLIST"
+            topResult.uri  = playlist.uri
             topResultProbability = playlistProbability
         }
         return topResult
@@ -121,7 +126,7 @@ function SearchTerm({ term }) {
             <div className='flex text-white pl-8 pr-8'>
                 <div className='md:w-1/2 pr-1'>
                     <h1 className='text-2xl'>Top Result</h1>
-                    <TopResultTile id={topResultType.id} name={topResultType.name} image={topResultType.image} type={topResultType.type}/>                    
+                    <TopResultTile id={topResultType.id} name={topResultType.name} image={topResultType.image} type={topResultType.type} uri={topResultType?.uri}/>                    
                 </div>
 
                 <div className='md:w-1/2 pl-1'>
@@ -129,7 +134,7 @@ function SearchTerm({ term }) {
                     <div>
                         {   
                             searchResults?.tracks?.items.slice(0, MAX_VISIBLE_SONGS).map((track, i) => (
-                                <Song track={track} order={i} small={true} />
+                                <Song key={`song-${i}-${track.id}`} track={track} order={i} small={true} />
                             ))
                         }
                     </div>
@@ -142,8 +147,8 @@ function SearchTerm({ term }) {
                     <div className="z-1 mt-5 p-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 text-white gap-4 justify-center">
                         {
                             searchResults?.artists?.items.slice(0, MAX_PLAYLIST_SONGS).map(
-                                (playlist, i) => (
-                                    <PlaylistTiles id={playlist.id} name={playlist.name} image={playlist?.images[0]?.url} description={playlist.description} redirect={() => { }} />
+                                (artist, i) => (
+                                    <PlaylistTiles key={`artist-${artist.id}`} id={artist.id} name={artist.name} image={artist?.images[0]?.url} description={artist.description} redirect={() => { redirectTo(`/artist/${artist.id}`) } } />
                                 )
                             )    
                         }
@@ -157,8 +162,8 @@ function SearchTerm({ term }) {
                     <div className="z-1 mt-5 p-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 text-white gap-4 justify-center">
                         {
                             searchResults?.albums?.items.slice(0, MAX_PLAYLIST_SONGS).map(
-                                (playlist, i) => (
-                                    <PlaylistTiles id={playlist.id} name={playlist.name} image={playlist?.images[0]?.url} description={playlist.description} redirect={() => { }} />
+                                (album, i) => (
+                                    <PlaylistTiles key={`album-${album.id}`} id={album.id} name={album.name} image={album?.images[0]?.url} description={album.description} redirect={() => { redirectTo(`/album/${album.id}`) }} />
                                 )
                             )    
                         }
@@ -172,7 +177,7 @@ function SearchTerm({ term }) {
                     {
                         searchResults?.playlists?.items.slice(0, MAX_PLAYLIST_SONGS).map(
                             (playlist, i) => (
-                                <PlaylistTiles id={playlist.id} name={playlist.name} image={playlist?.images[0]?.url} description={playlist.owner.display_name} redirect={() => {setPlaylistId(playlist.id); redirectTo("/") }} />
+                                <PlaylistTiles key={`playlist-${playlist.id}`} id={playlist.id} name={playlist.name} image={playlist?.images[0]?.url} description={playlist.owner.display_name} redirect={() => {setPlaylistId(playlist.id); redirectTo("/") }} />
                             )
                         )    
                     }

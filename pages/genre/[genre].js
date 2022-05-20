@@ -1,16 +1,19 @@
 
-import { ChevronDownIcon } from "@heroicons/react/outline"
 import { getSession, signOut } from 'next-auth/react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import useSpotify from "../../hooks/useSpotify" 
+import { useRecoilState } from "recoil"
+import { redirectTo } from "../../lib/misc"
+import { playlistIdState } from "../../atoms/playlistAtom"
 import PlaylistTiles from '../../components/PlaylistTiles'
 import UserProfile from "../../components/UserProfile"
 
 function Genre() {
 
     const {data: session, status} = useSession()
+    const [playlistId, setPlaylistId] = useRecoilState(playlistIdState)
     const router = useRouter()
     const { genre } = router.query
 

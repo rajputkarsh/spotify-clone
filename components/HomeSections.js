@@ -3,7 +3,7 @@ import SongTile from "./SongTile"
 import { useSession, signOut } from "next-auth/react"
 import { useState, useEffect } from "react"
 import useSpotify from "../hooks/useSpotify"
-import { getArtistNames } from "../lib/artists"
+import { concatenateArray } from "../lib/artists"
 import { shuffle } from "lodash"
 import PlaylistCollection from "./PlaylistCollection"
 import { MAX_RECENT_SONGS, MAX_CATEGORIES } from "../constants/constants"
@@ -54,7 +54,7 @@ function HomeSections() {
                 {
                     recentlyPlayedSongs.map( 
                         (recentlyPlayedSong) => (
-                            <SongTile key={recentlyPlayedSong?.track?.id} id={recentlyPlayedSong?.track?.id} name={recentlyPlayedSong?.track?.name} description={getArtistNames(recentlyPlayedSong?.track?.artists)} image={recentlyPlayedSong?.track?.album?.images[0]?.url} uri={recentlyPlayedSong?.track?.uri} />
+                            <SongTile key={recentlyPlayedSong?.track?.id} id={recentlyPlayedSong?.track?.id} name={recentlyPlayedSong?.track?.name} description={concatenateArray(recentlyPlayedSong?.track?.artists, 'name')} image={recentlyPlayedSong?.track?.album?.images[0]?.url} uri={recentlyPlayedSong?.track?.uri} />
                         )
                     )
                 }

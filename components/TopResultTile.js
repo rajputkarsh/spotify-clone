@@ -1,25 +1,48 @@
 
-import {PlayIcon} from "@heroicons/react/solid"
+import useSpotify from "../hooks/useSpotify"
+import { useRecoilState } from "recoil"
+import { currentTrackIdState, isPlayingState } from "../atoms/songAtom"
+import { playlistIdState } from "../atoms/playlistAtom"
+import { redirectTo } from "../lib/misc"
+import { PlayIcon } from "@heroicons/react/solid"
 import { toast } from "react-toastify"
 
-function TopResultTile({ id, name, image, type }) {
+function TopResultTile({ id, name, image, type, uri }) {
+
+    const spotifyApi = useSpotify()
+
+    const [currentTrackId, setCurrentTrackId] = useRecoilState(currentTrackIdState)
+    const [playlistId, setPlaylistId] = useRecoilState(playlistIdState)
+    const [isPlaying, setIsPlaying]           = useRecoilState(isPlayingState)
+
+    const playSong = () => {
+        setCurrentTrackId(id)
+        setIsPlaying(true)
+
+        spotifyApi.play({
+            uris: [uri],
+        }).catch(error => {
+            toast.error(error)
+        })
+    }
 
     const handleClick = (event) =>{
         switch(type){
             case "SONG" : {
-                redirectTo()
+                playSong()
                 break
             }
             case "ARTIST": {
-                redirectTo()
+                redirectTo(`/artist/${id}`)
                 break
             }
             case "PLAYLIST": {
-                redirectTo()
+                setPlaylistId(id)
+                redirectTo("/")
                 break
             }
             case "ALBUM": {
-                redirectTo()
+                redirectTo(`/album/${id}`)
                 break
             }
             default:{
