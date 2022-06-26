@@ -33,7 +33,7 @@ function PlaylistCollection({ id, name, limit=MAX_PLAYLIST_SONGS }) {
         {
             playlists.map( 
                 (playlist) => (
-                    <PlaylistTiles key={id} id={id} name={playlist.name} description={""} image={playlist?.images[0]?.url} redirect={() => {setPlaylistId(playlist.id); redirectTo("/")}} />
+                <PlaylistTiles key={"playlist-tile=" + id + "-" + playlist.name} id={id} name={playlist.name} description={""} image={playlist?.images[0]?.url} redirect={() => { setPlaylistId(playlist.id); redirectTo("/playlist")}} />
                 )
             )
         }      

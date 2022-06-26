@@ -113,7 +113,7 @@ function ArtistPlaylists() {
                 {
                     topPlaylists.map(
                         (playlist, i) => (
-                            <PlaylistTiles key={`album-${i}-${playlist.id}`} id={playlist.id} name={playlist.name} description={""} image={playlist?.images[0]?.url} redirect={() => {setPlaylistId(playlist.id); redirectTo("/")}} />
+                            <PlaylistTiles key={`playlist-${i}-${playlist.id}`} id={playlist.id} name={playlist.name} description={""} image={playlist?.images[0]?.url} redirect={() => { setPlaylistId(playlist.id); redirectTo("/playlist")}} />
                         )
                     )
                 }

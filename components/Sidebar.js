@@ -84,7 +84,7 @@ function Sidebar() {
                 {
                     playlists.map( 
                         (playlist) => (
-                            <p key={playlist.id} onClick={() => {setPlaylistId(playlist.id); redirectTo("/")}} className="cursor-pointer hover:text-white">
+                            <p key={playlist.id} onClick={() => { setPlaylistId(playlist.id); redirectTo("/playlist")}} className="cursor-pointer hover:text-white">
                                 {playlist.name}
                             </p>
                         )

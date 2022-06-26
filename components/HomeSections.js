@@ -54,7 +54,7 @@ function HomeSections() {
                 {
                     recentlyPlayedSongs.map( 
                         (recentlyPlayedSong) => (
-                            <SongTile key={recentlyPlayedSong?.track?.id} id={recentlyPlayedSong?.track?.id} name={recentlyPlayedSong?.track?.name} description={concatenateArray(recentlyPlayedSong?.track?.artists, 'name')} image={recentlyPlayedSong?.track?.album?.images[0]?.url} uri={recentlyPlayedSong?.track?.uri} />
+                            <SongTile key={"recently-played-"+recentlyPlayedSong?.track?.id} id={recentlyPlayedSong?.track?.id} name={recentlyPlayedSong?.track?.name} description={concatenateArray(recentlyPlayedSong?.track?.artists, 'name')} image={recentlyPlayedSong?.track?.album?.images[0]?.url} uri={recentlyPlayedSong?.track?.uri} />
                         )
                     )
                 }
@@ -63,7 +63,7 @@ function HomeSections() {
                     categories ? categories.map(
                         (category) => (
                             <>
-                                <section className={`flex items-end space-x-7  h-30 text-white p-8`}>
+                                <section key={"category-section" + category.id} className={`flex items-end space-x-7  h-30 text-white p-8`}>
                                     <div>
                                     <h1 className="text-3xl font-bold">{category.name}</h1>
                                     </div>
@@ -71,7 +71,7 @@ function HomeSections() {
 
                                 <div>
                                     {
-                                    <PlaylistCollection id={category.id} />   
+                                        <PlaylistCollection key={"category-"+category.id} id={category.id} />   
                                     }                                 
                                 </div>
 

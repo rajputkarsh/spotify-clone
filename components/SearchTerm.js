@@ -177,7 +177,7 @@ function SearchTerm({ term }) {
                     {
                         searchResults?.playlists?.items.slice(0, MAX_PLAYLIST_SONGS).map(
                             (playlist, i) => (
-                                <PlaylistTiles key={`playlist-${playlist.id}`} id={playlist.id} name={playlist.name} image={playlist?.images[0]?.url} description={playlist.owner.display_name} redirect={() => {setPlaylistId(playlist.id); redirectTo("/") }} />
+                                <PlaylistTiles key={`playlist-${playlist.id}`} id={playlist.id} name={playlist.name} image={playlist?.images[0]?.url} description={playlist.owner.display_name} redirect={() => { setPlaylistId(playlist.id); redirectTo("/playlist") }} />
                             )
                         )    
                     }

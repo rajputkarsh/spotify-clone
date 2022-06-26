@@ -53,7 +53,7 @@ function Library() {
             {
                 playlists.map( 
                     (playlist) => (
-                        <PlaylistTiles key={playlist.id} id={playlist.id} name={playlist.name} description={playlist.description} image={playlist?.images[0]?.url} redirect={() => {setPlaylistId(playlist.id); redirectTo("/")}} />
+                        <PlaylistTiles key={playlist.id} id={playlist.id} name={playlist.name} description={playlist.description} image={playlist?.images[0]?.url} redirect={() => {setPlaylistId(playlist.id); redirectTo("/playlist")}} />
                     )
                 )
             }

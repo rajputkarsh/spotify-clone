@@ -38,7 +38,7 @@ function TopResultTile({ id, name, image, type, uri }) {
             }
             case "PLAYLIST": {
                 setPlaylistId(id)
-                redirectTo("/")
+                redirectTo("/playlist")
                 break
             }
             case "ALBUM": {
