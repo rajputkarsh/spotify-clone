@@ -4,7 +4,7 @@ import { ChevronDownIcon } from "@heroicons/react/outline"
 
 function UserProfile() {
 
-    const {data: session, status} = useSession()
+    const {data: session, status} = useSession();
 
     return (
     <header className="absolute top-5 right-8  z-10">
