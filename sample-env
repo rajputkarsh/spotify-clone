@@ -1,5 +1,0 @@
-NEXTAUTH_URL=http://localhost:3000
-NEXT_PUBLIC_CLIENT_ID=5e7721dc6beb4ff7b11759aeb21e4b78
-NEXT_PUBLIC_CLIENT_SECRET=6ccc733aafd743ba81d54c6dcc8de0e2
-
-JWT_SECRET=thisisaverysecretkey
