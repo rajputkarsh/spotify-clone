@@ -49,38 +49,38 @@ function SearchTerm({ term }) {
         let playlistProbability = findMatchProbability(term, playlist.name)
 
         if ( trackProbability > topResultProbability){
-            topResult.id = track.id
-            topResult.name = track.name
+            topResult.id = track?.id
+            topResult.name = track?.name
             topResult.image = track?.album?.images[0]?.url
             topResult.type = "SONG"
-            topResult.uri  = track.uri
+            topResult.uri  = track?.uri
             topResultProbability = trackProbability
         }
         
         if ( artistProbability > topResultProbability){
-            topResult.id = artist.id
-            topResult.name = artist.name
+            topResult.id = artist?.id
+            topResult.name = artist?.name
             topResult.image = artist?.images[0]?.url
             topResult.type = "ARTIST"
-            topResult.uri  = artist.uri
+            topResult.uri  = artist?.uri
             topResultProbability = artistProbability
         }
 
         if ( albumProbability > topResultProbability){
-            topResult.id = album.id
-            topResult.name = album.name
+            topResult.id = album?.id
+            topResult.name = album?.name
             topResult.image = album?.images[0]?.url
             topResult.type = "ALBUM"
-            topResult.uri  = album.uri
+            topResult.uri  = album?.uri
             topResultProbability = albumProbability
         }
 
         if ( playlistProbability > topResultProbability){
-            topResult.id = playlist.id
-            topResult.name = playlist.name
+            topResult.id = playlist?.id
+            topResult.name = playlist?.name
             topResult.image = playlist?.images[0]?.url
             topResult.type = "PLAYLIST"
-            topResult.uri  = playlist.uri
+            topResult.uri  = playlist?.uri
             topResultProbability = playlistProbability
         }
         return topResult
