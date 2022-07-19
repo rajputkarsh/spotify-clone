@@ -7,7 +7,7 @@ function Login( { providers } ) {
 
       { 
         Object.values(providers).map((provider) => (
-          <div key={provider.name} onClick={() => { signIn(provider.id, {callbackUrl: "/home"}) }}>
+          <div key={provider.name} onClick={() => { signIn(provider.id, {callbackUrl: `${process.env.NEXTAUTH_URL}home`}) }}>
             <button className="bg-[#18D860] text-white p-5 rounded-lg">Login with {provider.name}</button>
           </div>
         ))
