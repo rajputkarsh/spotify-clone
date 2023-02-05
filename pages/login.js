@@ -7,7 +7,7 @@ function Login( { providers } ) {
 
       { 
         Object.values(providers).map((provider) => (
-          <div key={provider.name} onClick={() => { signIn(provider.id, {callbackUrl: `https://spotify-clone.projects.utkarshrajput.com/home`}) }}>
+          <div key={provider.name} onClick={() => { signIn(provider.id, {callbackUrl: `https://spotify-clone.utkarshrajput.com/home`}) }}>
             <button className="bg-[#18D860] text-white p-5 rounded-lg">Login with {provider.name}</button>
           </div>
         ))
