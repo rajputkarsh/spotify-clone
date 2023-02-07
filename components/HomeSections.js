@@ -1,4 +1,5 @@
 
+import React from 'react';
 import SongTile from "./SongTile"
 import { useSession, signOut } from "next-auth/react"
 import { useState, useEffect } from "react"
@@ -62,7 +63,7 @@ function HomeSections() {
                 {
                     categories ? categories.map(
                         (category) => (
-                            <>
+                            <React.Fragment key={"category-fragment" + category.id}>
                                 <section key={"category-section" + category.id} className={`flex items-end space-x-7  h-30 text-white p-8`}>
                                     <div>
                                     <h1 className="text-3xl font-bold">{category.name}</h1>
@@ -75,7 +76,7 @@ function HomeSections() {
                                     }                                 
                                 </div>
 
-                            </>
+                            </React.Fragment>
                         )
                     )
                     : ""

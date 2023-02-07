@@ -19,8 +19,8 @@ function AlbumTrack( { order, id, uri, name, albumName, duration, image, artists
         spotifyApi.play({
             uris: [uri],
         }).catch(error => {
-            toast.error(error   )
-        })
+            // toast.dark('ERROR: Spotify Premium Required!')
+        });
     }
 
     return small ? 

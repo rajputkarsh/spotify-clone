@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
-import Router from 'next/router';
+import Router from 'next/router'
+import Modal from '../components/Modal'
 import { useSession } from 'next-auth/react'
 import { useRecoilState } from 'recoil'
 import { debounce } from 'lodash'
@@ -9,6 +10,7 @@ import { currentTrackIdState, isPlayingState } from '../atoms/songAtom'
 import {
   HeartIcon,
   VolumeUpIcon as VolumeDownIcon,
+  MicrophoneIcon,
 } from '@heroicons/react/outline'
 import {
   HeartIcon as FilledHeartIcon,
@@ -21,7 +23,6 @@ import {
   VolumeUpIcon,
 } from '@heroicons/react/solid'
 
-
 import { toast } from 'react-toastify'
 
 function Player() {
@@ -31,8 +32,10 @@ function Player() {
     useRecoilState(currentTrackIdState)
   const [isPlaying, setIsPlaying] = useRecoilState(isPlayingState)
 
-  const [volume, setVolume] = useState(50);
-  const [isLiked, setLiked] = useState(false);
+  const [volume, setVolume] = useState(50)
+  const [isLiked, setLiked] = useState(false)
+  const [lyrics, setLyrics] = useState('')
+  const [showLyrics, setShowLyrics] = useState(false)
 
   const songInfo = useSongInfo()
 
@@ -48,24 +51,35 @@ function Player() {
     }
   }
 
+  const handleModal = () => {
+    toast.dark('Oops! Lyrics for this song are not available')
+  }
+
   const handleLikeSong = () => {
-    if(isLiked){
-        spotifyApi.removeFromMySavedTracks([currentTrackId]).then(setLiked(false));
-        Router.reload(window.location.pathname);
-    } else{
-        spotifyApi.addToMySavedTracks([currentTrackId]).then(setLiked(true));
+    if (isLiked) {
+      spotifyApi.removeFromMySavedTracks([currentTrackId]).then(setLiked(false))
+      Router.reload(window.location.pathname)
+    } else {
+      spotifyApi.addToMySavedTracks([currentTrackId]).then(setLiked(true))
     }
   }
 
   const handlePlayPause = () => {
+    
+    console.log('handlePlayPause')
+
     spotifyApi
       .getMyCurrentPlaybackState()
       .then((data) => {
         if (data.body?.is_playing) {
-          spotifyApi.pause()
+          spotifyApi.pause().catch(error => {
+            // toast.dark('ERROR: Spotify Premium Required!')
+        });
           setIsPlaying(false)
         } else {
-          spotifyApi.play()
+          spotifyApi.play().catch(error => {
+            // toast.dark('ERROR: Spotify Premium Required!')
+        });
           setIsPlaying(false)
         }
       })
@@ -79,24 +93,23 @@ function Player() {
 
   useEffect(() => {
     if (spotifyApi.getAccessToken() && !currentTrackId) {
-      fetchCurrentSong();
-      setVolume(50);
+      fetchCurrentSong()
+      setVolume(50)
     }
   }, [currentTrackId, spotifyApi, session])
 
   useEffect(() => {
-    if (spotifyApi.getAccessToken()){
-        spotifyApi.getMySavedTracks().then(data => {
-            console.log('liked tracks - ', data.body.items);
-            data.body.items.forEach(track => {
-                if(track?.track?.id == currentTrackId){
-                    setLiked(true);
-                    return;
-                }
-            })
-          })    
+    if (spotifyApi.getAccessToken()) {
+      spotifyApi.getMySavedTracks().then((data) => {
+        data.body.items.forEach((track) => {
+          if (track?.track?.id == currentTrackId) {
+            setLiked(true)
+            return
+          }
+        })
+      })
     }
-  }, [songInfo, currentTrackId]);
+  }, [songInfo, currentTrackId])
 
   useEffect(() => {
     if (volume > 0 && volume < 100) {
@@ -133,9 +146,11 @@ function Player() {
             }}
             className="flex items-center space-x-2 hover:text-white "
           >
-            {
-                isLiked ? <FilledHeartIcon className="h-5 w-5" /> : <HeartIcon className="h-5 w-5" />
-            }
+            {isLiked ? (
+              <FilledHeartIcon className="h-5 w-5" />
+            ) : (
+              <HeartIcon className="h-5 w-5" />
+            )}
           </button>
         )}
       </div>
@@ -162,8 +177,8 @@ function Player() {
       </div>
 
       {/* right */}
-
       <div className="flex items-center justify-end space-x-3 pr-5 md:space-x-4">
+        <MicrophoneIcon onClick={() => handleModal()} className="button" />
         <VolumeDownIcon
           onClick={() => volume > 0 && setVolume(volume - 10)}
           className="button"
@@ -183,6 +198,11 @@ function Player() {
           className="button"
         />
       </div>
+      {showLyrics && (
+        <Modal setShowModal={setShowLyrics} title={'Lyrics'}>
+          {lyrics}
+        </Modal>
+      )}
     </div>
   )
 }

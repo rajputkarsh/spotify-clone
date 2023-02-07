@@ -22,8 +22,8 @@ function TopResultTile({ id, name, image, type, uri }) {
         spotifyApi.play({
             uris: [uri],
         }).catch(error => {
-            toast.error(error)
-        })
+            // toast.dark('ERROR: Spotify Premium Required!')
+        });
     }
 
     const handleClick = (event) =>{
