@@ -75,9 +75,6 @@ function Song({ order, track, small = false }) {
             onClick={() => setShowAddToPlaylistModal(true)}
           >
             <PlusCircleIcon className="text-white h-5 w-5" style={{display:'inline'}}/>
-            <span className='p-2'>
-              Add to Playlist
-            </span>
           </button>
         </div>
 
