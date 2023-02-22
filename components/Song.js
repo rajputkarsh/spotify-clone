@@ -50,6 +50,44 @@ function Song({ order, track, small = false }) {
     )
   }  
 
+  const SaveToPlaylistModal = () => {
+    return (       
+      <Modal
+        setShowModal={setShowAddToPlaylistModal}
+        title={'Add to Playlist'}
+      >
+        {
+          <div className="flex w-full max-w-sm flex-col">
+            <div className="mb-6 md:flex md:items-center">
+              <div className="md:w-full">
+                <label for={'select_playlist'}>
+                  Select a playlist
+                </label>
+                <select
+                  id={'select_playlist'}
+                  className="text-white"
+                  style={{ backgroundColor: '#181818', marginLeft: '1rem' }}
+                  onChange={(e) => {setSelectedPlaylist(e.target.value)} }
+                  value={selectedPlaylist}
+                >
+                  {playlists.map((playlist) => (
+                    <option value={playlist.id}>{playlist.name}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <button
+              onClick={(e) => addToPlaylist(e)}
+              className="rounded border border-gray-400 bg-white py-2 px-4 font-semibold text-gray-800 shadow hover:bg-gray-100"
+            >
+              Add
+            </button>              
+          </div>
+        }
+      </Modal>
+    );
+  }
+
   return small ? (
     <div
       className="grid grid-cols-2 rounded-lg pl-2 text-gray-600 hover:bg-gray-900"
@@ -79,6 +117,7 @@ function Song({ order, track, small = false }) {
         </div>
 
       </div>
+      {showAddToPlaylistModal && <SaveToPlaylistModal />}      
     </div>
   ) : (
     <div
@@ -100,7 +139,7 @@ function Song({ order, track, small = false }) {
         </div>
 
         <div className=''>
-          <button style={{width: 'max-content', backgroundColor: '#181818'}}
+          <button style={{width: 'max-content', backgroundColor: '#181818', padding: '0.5rem 0.5rem', borderRadius: '1.5rem'}}
             className=""
             onClick={() => setShowAddToPlaylistModal(true)}
           >
@@ -111,41 +150,7 @@ function Song({ order, track, small = false }) {
           </button>
         </div>
       </div>
-      {showAddToPlaylistModal && (
-        <Modal
-          setShowModal={setShowAddToPlaylistModal}
-          title={'Add to Playlist'}
-        >
-          {
-            <div className="flex w-full max-w-sm flex-col">
-              <div className="mb-6 md:flex md:items-center">
-                <div className="md:w-full">
-                  <label for={'select_playlist'}>
-                    Select a playlist
-                  </label>
-                  <select
-                    id={'select_playlist'}
-                    className="text-white"
-                    style={{ backgroundColor: '#181818', marginLeft: '1rem' }}
-                    onChange={(e) => {setSelectedPlaylist(e.target.value)} }
-                    value={selectedPlaylist}
-                  >
-                    {playlists.map((playlist) => (
-                      <option value={playlist.id}>{playlist.name}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-              <button
-                onClick={(e) => addToPlaylist(e)}
-                className="rounded border border-gray-400 bg-white py-2 px-4 font-semibold text-gray-800 shadow hover:bg-gray-100"
-              >
-                Add
-              </button>              
-            </div>
-          }
-        </Modal>
-      )}
+      {showAddToPlaylistModal && <SaveToPlaylistModal />}
     </div>
   )
 }
