@@ -1,9 +1,10 @@
-import { getProviders, signIn } from "next-auth/react"
+import { getProviders, signIn } from "next-auth/react";
+import logo from './logo.png'
 
 function Login( { providers } ) {
   return (
     <div className="flex flex-col items-center bg-black min-h-screen w-full justify-center">
-      <img className="w-52 mb-5" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/1200px-Spotify_logo_without_text.svg.png" alt="" />
+      <img className="w-52 mb-5" src={logo} alt="" />
 
       { 
         Object.values(providers).map((provider) => (
